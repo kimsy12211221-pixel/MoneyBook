@@ -1,0 +1,26 @@
+name: personal_spending_app
+description: A personal spending decision interface built with Flutter.
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  drift: ^2.28.1
+  flutter_riverpod: ^2.6.1
+  path: ^1.9.1
+  path_provider: ^2.1.5
+  sqlite3_flutter_libs: ^0.5.39
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.7.0
+  drift_dev: ^2.28.2
+
+flutter:
+  uses-material-design: true

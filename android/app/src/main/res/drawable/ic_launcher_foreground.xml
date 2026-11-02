@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Compact square sprite so the alien reads as a small tamagotchi face. -->
+    <path android:fillColor="#2A5630" android:pathData="M51,35h6v5h-6zM45,40h18v5h-18zM40,45h28v25h-28zM45,70h18v5h-18zM47,75h6v5h-6zM55,75h6v5h-6z" />
+    <path android:fillColor="#8BFF7D" android:pathData="M45,45h18v25h-18zM48,40h12v5h-12zM47,70h14v3h-14z" />
+    <path android:fillColor="#EDFFE9" android:pathData="M47,50h5v5h-5zM56,50h5v5h-5z" />
+    <path android:fillColor="#243326" android:pathData="M49,51h3v3h-3zM56,51h3v3h-3zM51,61h6v3h-6z" />
+    <path android:fillColor="#64D65A" android:pathData="M35,53h5v9h-5zM68,53h5v9h-5zM36,56h4v4h-4zM68,56h4v4h-4z" />
+</vector>
