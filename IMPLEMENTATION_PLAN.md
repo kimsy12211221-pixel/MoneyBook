@@ -1295,7 +1295,11 @@ Annual Special remains separate because it is spending reserve money, not pure
 wealth accumulation.
 
 Saving plan targets and labels are editable from `ME > BUDGET > SAVING BUDGET`
-for the current month. The initial labels are `신한투자 / ETF투자`, `토스나눠모으기 /
+for the current saving cycle. The initial labels are `신한투자 / ETF투자`, `토스나눠모으기 /
 ANNUAL SPECIAL`, `토스나눠모으기 / 비상금`, `토스통장 / 고정비확보`, and `케이뱅크 /
-생활비이체`. Editing a target or label never clears that month's completed steps
+생활비이체`. Editing a target or label never clears that cycle's completed steps
 or Sweep record.
+
+Saving plans reset on the 21st, not on the calendar-month boundary. A plan
+created from November 21 through December 20 shares one saving-cycle record;
+the regular `LOG` and monthly spending budget remain calendar-month based.

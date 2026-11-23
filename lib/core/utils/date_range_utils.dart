@@ -33,6 +33,25 @@ class DateRangeUtils {
     return '${value.year}-$month';
   }
 
+  /// Saving plans follow payday: the 21st through the 20th of next month.
+  static DateTime savingCycleStart(DateTime value) {
+    if (value.day >= 21) {
+      return DateTime(value.year, value.month, 21);
+    }
+    return DateTime(value.year, value.month - 1, 21);
+  }
+
+  static String savingCycleKey(DateTime value) {
+    final start = savingCycleStart(value);
+    return 'saving_${start.year}-${start.month.toString().padLeft(2, '0')}-21';
+  }
+
+  static String savingCycleLabel(DateTime value) {
+    final start = savingCycleStart(value);
+    final end = DateTime(start.year, start.month + 1, 20);
+    return '${monthShortLabel(start.month)} 21 - ${monthShortLabel(end.month)} 20';
+  }
+
   static String shortDateLabel(DateTime value) {
     final month = value.month.toString().padLeft(2, '0');
     final day = value.day.toString().padLeft(2, '0');
@@ -40,6 +59,12 @@ class DateRangeUtils {
   }
 
   static String monthDayLabel(DateTime value) {
+    final label = monthShortLabel(value.month);
+    final day = value.day.toString().padLeft(2, '0');
+    return '$label $day';
+  }
+
+  static String monthShortLabel(int month) {
     const months = [
       'JAN',
       'FEB',
@@ -54,8 +79,6 @@ class DateRangeUtils {
       'NOV',
       'DEC',
     ];
-    final label = months[value.month - 1];
-    final day = value.day.toString().padLeft(2, '0');
-    return '$label $day';
+    return months[month - 1];
   }
 }

@@ -5,6 +5,7 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/theme_extensions.dart';
 import '../../../core/types/enums.dart';
 import '../../../core/utils/currency_formatter.dart';
+import '../../../core/utils/date_range_utils.dart';
 import '../../../domain/models/transaction.dart';
 import '../../../domain/providers/budget_provider.dart';
 import '../../../domain/providers/category_provider.dart';
@@ -65,7 +66,7 @@ class _SavingScreenState extends ConsumerState<SavingScreen> {
           SizedBox(height: spacing.lg),
           const SectionHeader('SAVING'),
           SizedBox(height: spacing.sm),
-          MetaLabel('${_monthLabel(now)} SAVING'),
+          MetaLabel('${DateRangeUtils.savingCycleLabel(now)} SAVING'),
           SizedBox(height: spacing.lg),
           Text(
             CurrencyFormatter.formatKrw(wealth),
@@ -209,24 +210,6 @@ class _SavingScreenState extends ConsumerState<SavingScreen> {
 
   Future<void> _markDone(SavingPlanStep step, DateTime now) async {
     await ref.read(savingPlanControllerProvider).markStepDone(now, step);
-  }
-
-  String _monthLabel(DateTime date) {
-    const months = [
-      'JANUARY',
-      'FEBRUARY',
-      'MARCH',
-      'APRIL',
-      'MAY',
-      'JUNE',
-      'JULY',
-      'AUGUST',
-      'SEPTEMBER',
-      'OCTOBER',
-      'NOVEMBER',
-      'DECEMBER',
-    ];
-    return months[date.month - 1];
   }
 }
 

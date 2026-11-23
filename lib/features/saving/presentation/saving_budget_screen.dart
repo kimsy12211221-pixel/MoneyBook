@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/currency_formatter.dart';
+import '../../../core/utils/date_range_utils.dart';
 import '../../../domain/providers/current_date_provider.dart';
 import '../../../domain/providers/saving_provider.dart';
 import '../../../shared/widgets/app_divider.dart';
@@ -31,7 +32,9 @@ class SavingBudgetScreen extends ConsumerWidget {
           SizedBox(height: spacing.lg),
           const SectionHeader('SAVING BUDGET'),
           SizedBox(height: spacing.sm),
-          const MetaLabel('TAP A NAME OR AMOUNT TO EDIT · CURRENT MONTH'),
+          MetaLabel(
+            '${DateRangeUtils.savingCycleLabel(now)} · TAP A NAME OR AMOUNT TO EDIT',
+          ),
           SizedBox(height: spacing.xl),
           _SavingBudgetItem(
             label: 'MONTHLY SALARY',

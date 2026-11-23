@@ -20,5 +20,20 @@ void main() {
 
       expect(DateRangeUtils.yearMonthKey(value), '2026-08');
     });
+
+    test('uses the 21st as the saving cycle boundary', () {
+      expect(
+        DateRangeUtils.savingCycleKey(DateTime(2026, 11, 20)),
+        'saving_2026-10-21',
+      );
+      expect(
+        DateRangeUtils.savingCycleKey(DateTime(2026, 11, 21)),
+        'saving_2026-11-21',
+      );
+      expect(
+        DateRangeUtils.savingCycleLabel(DateTime(2026, 11, 23)),
+        'NOV 21 - DEC 20',
+      );
+    });
   });
 }

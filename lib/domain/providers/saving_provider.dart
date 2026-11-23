@@ -15,10 +15,10 @@ enum SavingPlanTarget { salary, etf, annualSpecial, living, housing, fixedCost }
 
 final currentSavingPlanProvider = StreamProvider<SavingPlansTableData?>((ref) {
   final now = ref.watch(currentDateProvider).valueOrNull ?? DateTime.now();
-  final yearMonth = DateRangeUtils.yearMonthKey(now);
+  final cycleKey = DateRangeUtils.savingCycleKey(now);
   final database = ref.watch(appDatabaseProvider);
   final query = database.select(database.savingPlansTable)
-    ..where((table) => table.yearMonth.equals(yearMonth));
+    ..where((table) => table.yearMonth.equals(cycleKey));
   return query.watchSingleOrNull();
 });
 
@@ -36,20 +36,20 @@ class SavingPlanController {
   final dynamic _transactions;
 
   Future<void> ensurePlan(DateTime date) async {
-    final yearMonth = DateRangeUtils.yearMonthKey(date);
+    final cycleKey = DateRangeUtils.savingCycleKey(date);
     final existing = await (_database.select(_database.savingPlansTable)
-          ..where((table) => table.yearMonth.equals(yearMonth)))
+          ..where((table) => table.yearMonth.equals(cycleKey)))
         .getSingleOrNull();
     if (existing != null) return;
     await _database.into(_database.savingPlansTable).insert(
-          _defaultPlan(yearMonth, date),
+          _defaultPlan(cycleKey, date),
           mode: InsertMode.insertOrIgnore,
         );
   }
 
   Future<void> markStepDone(DateTime date, SavingPlanStep step) async {
     await ensurePlan(date);
-    final yearMonth = DateRangeUtils.yearMonthKey(date);
+    final cycleKey = DateRangeUtils.savingCycleKey(date);
     final now = DateTime.now();
     final companion = switch (step) {
       SavingPlanStep.etf =>
@@ -72,7 +72,7 @@ class SavingPlanController {
         ),
     };
     await (_database.update(_database.savingPlansTable)
-          ..where((table) => table.yearMonth.equals(yearMonth)))
+          ..where((table) => table.yearMonth.equals(cycleKey)))
         .write(companion);
   }
 
@@ -80,9 +80,9 @@ class SavingPlanController {
     if (amount <= 0) return;
     await ensurePlan(date);
     final now = DateTime.now();
-    final yearMonth = DateRangeUtils.yearMonthKey(date);
+    final cycleKey = DateRangeUtils.savingCycleKey(date);
     await (_database.update(_database.savingPlansTable)
-          ..where((table) => table.yearMonth.equals(yearMonth)))
+          ..where((table) => table.yearMonth.equals(cycleKey)))
         .write(
       SavingPlansTableCompanion(
         sweepAmount: Value(amount),
@@ -99,7 +99,7 @@ class SavingPlanController {
   ) async {
     if (amount < 0) return;
     await ensurePlan(date);
-    final yearMonth = DateRangeUtils.yearMonthKey(date);
+    final cycleKey = DateRangeUtils.savingCycleKey(date);
     final now = DateTime.now();
     final companion = switch (target) {
       SavingPlanTarget.salary => SavingPlansTableCompanion(
@@ -124,7 +124,7 @@ class SavingPlanController {
         ),
     };
     await (_database.update(_database.savingPlansTable)
-          ..where((table) => table.yearMonth.equals(yearMonth)))
+          ..where((table) => table.yearMonth.equals(cycleKey)))
         .write(companion);
   }
 
@@ -136,7 +136,7 @@ class SavingPlanController {
     final trimmed = label.trim();
     if (trimmed.isEmpty) return;
     await ensurePlan(date);
-    final yearMonth = DateRangeUtils.yearMonthKey(date);
+    final cycleKey = DateRangeUtils.savingCycleKey(date);
     final now = DateTime.now();
     final companion = switch (step) {
       SavingPlanStep.etf => SavingPlansTableCompanion(
@@ -161,7 +161,7 @@ class SavingPlanController {
         ),
     };
     await (_database.update(_database.savingPlansTable)
-          ..where((table) => table.yearMonth.equals(yearMonth)))
+          ..where((table) => table.yearMonth.equals(cycleKey)))
         .write(companion);
   }
 
@@ -187,9 +187,9 @@ class SavingPlanController {
     );
   }
 
-  SavingPlansTableCompanion _defaultPlan(String yearMonth, DateTime now) {
+  SavingPlansTableCompanion _defaultPlan(String cycleKey, DateTime now) {
     return SavingPlansTableCompanion.insert(
-      yearMonth: yearMonth,
+      yearMonth: cycleKey,
       salaryAmount: 4000000,
       etfLabel: const Value('신한투자 / ETF투자'),
       etfTarget: 1000000,
